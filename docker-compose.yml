@@ -52,4 +52,4 @@ networks:
 volumes:
  influxdb-plugs-database:
  mosquitto-data:
- mosquitto-logs:
+ mosquitto-log:
