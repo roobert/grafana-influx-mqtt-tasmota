@@ -8,6 +8,7 @@ services:
     container_name: influxdb
     environment:
       - INFLUXDB_HTTP_BIND_ADDRESS=:18086
+      - INFLUXDB_DB=plugs
     expose:
       - 18086
     ports:

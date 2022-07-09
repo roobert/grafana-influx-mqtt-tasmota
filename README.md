@@ -15,9 +15,6 @@ make create-network
 
 # Start the services:
 docker-compose up -d
-
-# Create a database
-make create-db
 ```
 
 
