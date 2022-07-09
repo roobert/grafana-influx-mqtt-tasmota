@@ -13,7 +13,7 @@ services:
     ports:
       - 18086:18086
     volumes:
-      - ./data/influxdb:/var/lib/influxdb
+      - influxdb-plugs-database:/var/lib/influxdb
     restart: always
 
   mosquitto:
@@ -28,8 +28,8 @@ services:
     volumes:
       - ./mosquitto/mosquitto.conf:/mosquitto/config/mosquitto.conf
       - ./mosquitto/users:/mosquitto/config/users
-      - ./data/mosquitto/data:/mosquitto/data
-      - ./data/mosquitto/log:/mosquitto/log
+      - mosquitto-data:/mosquitto/data
+      - mosquitto-log:/mosquitto/log
     restart: always
 
   mqttbridge:
@@ -47,3 +47,8 @@ networks:
   network0:
     name: network0
     external: true
+
+volumes:
+ influxdb-plugs-database:
+ mosquitto-data:
+ mosquitto-logs:
