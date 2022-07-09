@@ -1,0 +1,49 @@
+version: '3'
+
+services:
+  influxdb-plugs:
+    networks:
+      - network0
+    image: influxdb:1.8.10
+    container_name: influxdb
+    environment:
+      - INFLUXDB_HTTP_BIND_ADDRESS=:18086
+    expose:
+      - 18086
+    ports:
+      - 18086:18086
+    volumes:
+      - ./data/influxdb:/var/lib/influxdb
+    restart: always
+
+  mosquitto:
+    networks:
+      - network0
+    image: eclipse-mosquitto:2.0.4
+    container_name: mosquitto
+    ports:
+      - 1883:1883
+    expose:
+      - 1883
+    volumes:
+      - ./mosquitto/mosquitto.conf:/mosquitto/config/mosquitto.conf
+      - ./mosquitto/users:/mosquitto/config/users
+      - ./data/mosquitto/data:/mosquitto/data
+      - ./data/mosquitto/log:/mosquitto/log
+    restart: always
+
+  mqttbridge:
+    networks:
+      - network0
+    build: ./mqtt-bridge
+    image: roobert/mqttbridge
+    container_name: mqttbridge
+    depends_on:
+      - mosquitto
+      - influxdb-plugs
+    restart: always
+
+networks:
+  network0:
+    name: network0
+    external: true
